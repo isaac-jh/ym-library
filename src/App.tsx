@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+
+type ActivityItem = {
+  id: number;
+  storage: string;
+  category: string;
+  year: number;
+  month: number;
+  activity_name: string;
+  description: string | null;
+};
 
 /**
  * 영미 자료실 메인 애플리케이션 컴포넌트
@@ -8,49 +18,101 @@ import './App.css';
 function App() {
   // 검색어 상태 관리
   const [searchQuery, setSearchQuery] = useState<string>('');
-  // API 응답 결과 상태 관리
-  const [result, setResult] = useState<string>('');
+  // 전체 데이터 목록
+  const [allEntries, setAllEntries] = useState<ActivityItem[]>([]);
+  // 검색 결과
+  const [filteredEntries, setFilteredEntries] = useState<ActivityItem[]>([]);
+  // 자동완성 목록
+  const [suggestions, setSuggestions] = useState<ActivityItem[]>([]);
+  // 검색 수행 여부
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
   // 로딩 상태 관리
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // 에러 상태 관리
   const [error, setError] = useState<string>('');
 
   /**
-   * 검색 버튼 클릭 시 API 호출을 수행합니다.
-   * 입력값을 쿼리스트링으로 전달하여 결과를 가져옵니다.
+   * 페이지 로드시 전체 데이터를 조회합니다.
    */
-  const handleSearch = async () => {
-    // 빈 검색어 검증
-    if (!searchQuery.trim()) {
-      setError('검색어를 입력해주세요.');
+  useEffect(() => {
+    const fetchAllEntries = async () => {
+      setIsLoading(true);
+      setError('');
+
+      try {
+        const response = await fetch('https://oiqrfvgxrhjsy33aq65algtv5m0uwrog.lambda-url.ap-northeast-2.on.aws/');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const parsedEntries: ActivityItem[] = Array.isArray(data?.items) ? data.items : [];
+
+        setAllEntries(parsedEntries);
+        setFilteredEntries([]);
+      } catch (err) {
+        setError('데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+        console.error('Fetch error:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllEntries();
+  }, []);
+
+  /**
+   * 입력값으로 LIKE 필터링을 수행합니다.
+   */
+  const filterEntries = (query: string) => {
+    const trimmedQuery = query.trim().toLowerCase();
+
+    if (!trimmedQuery) {
+      setFilteredEntries(allEntries);
       return;
     }
 
-    setIsLoading(true);
-    setError('');
-    setResult('');
+    const filtered = allEntries.filter((entry) =>
+      entry.activity_name.toLowerCase().includes(trimmedQuery)
+    );
 
-    try {
-      // API URL 구성 (쿼리스트링에 search 파라미터 추가)
-      const apiUrl = `https://oiqrfvgxrhjsy33aq65algtv5m0uwrog.lambda-url.ap-northeast-2.on.aws/?search=${encodeURIComponent(searchQuery)}`;
-      
-      // API 호출
-      const response = await fetch(apiUrl);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      // 응답을 문자열로 받아서 상태에 저장
-      const data = await response.text();
-      setResult(data);
-    } catch (err) {
-      // 에러 처리
-      setError('검색 중 오류가 발생했습니다. 다시 시도해주세요.');
-      console.error('Search error:', err);
-    } finally {
-      setIsLoading(false);
+    setFilteredEntries(filtered);
+  };
+
+  /**
+   * 입력값 변경 시 즉시 필터링합니다.
+   */
+  const handleInputChange = (value: string) => {
+    setSearchQuery(value);
+    const trimmedValue = value.trim().toLowerCase();
+
+    if (!trimmedValue) {
+      setSuggestions([]);
+      return;
     }
+
+    const matched = allEntries.filter((entry) =>
+      entry.activity_name.toLowerCase().includes(trimmedValue)
+    );
+
+    const uniqueByName = matched.filter(
+      (item, index, self) =>
+        self.findIndex((candidate) => candidate.activity_name === item.activity_name) === index
+    );
+
+    setSuggestions(uniqueByName);
+  };
+
+  /**
+   * 검색 버튼 클릭 시 필터링을 수행합니다.
+   * 검색어가 없으면 전체 데이터를 다시 표시합니다.
+   */
+  const handleSearch = async () => {
+    setError('');
+    setSuggestions([]);
+    setHasSearched(true);
+    filterEntries(searchQuery);
   };
 
   /**
@@ -74,7 +136,7 @@ function App() {
             className="search-input"
             placeholder="검색할 자료는?"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading}
           />
@@ -102,6 +164,28 @@ function App() {
           </button>
         </div>
 
+        {/* 자동완성 */}
+        {suggestions.length > 0 && (
+          <div className="autocomplete">
+            <ul>
+              {suggestions.map((item) => (
+                <li
+                  key={item.id}
+                  className="autocomplete-item"
+                  title={item.activity_name}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    setSearchQuery(item.activity_name);
+                    setSuggestions([]);
+                  }}
+                >
+                  {item.activity_name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* 로딩 표시 */}
         {isLoading && (
           <div className="loading">검색 중...</div>
@@ -113,10 +197,27 @@ function App() {
         )}
 
         {/* 검색 결과 표시 */}
-        {result && !isLoading && (
+        {!isLoading && hasSearched && filteredEntries.length > 0 && (
           <div className="result">
-            <pre>{result}</pre>
+            <div className="card-list">
+              {filteredEntries.map((entry) => (
+                <div key={entry.id} className="result-card">
+                  <div className="tag">{entry.storage}</div>
+                  <div className="tag">{entry.year}</div>
+                  <div className="tag">{entry.month}</div>
+                  <div className="tag activity">{entry.activity_name}</div>
+                  <div className="card-description">
+                    {entry.description ?? '설명 없음'}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+        )}
+
+        {/* 검색 결과 없음 */}
+        {!isLoading && hasSearched && filteredEntries.length === 0 && (
+          <div className="result empty">일치하는 자료가 없습니다.</div>
         )}
       </div>
     </div>
