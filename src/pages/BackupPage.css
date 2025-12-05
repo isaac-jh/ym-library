@@ -1,0 +1,30 @@
+.backup-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.backup-page .container {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.backup-page .title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.backup-page .placeholder {
+  font-size: 1.2rem;
+  color: #666;
+}
+
