@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-
-type ActivityItem = {
-  id: number;
-  storage: string;
-  category: string;
-  year: number;
-  month: number;
-  activity_name: string;
-  description: string | null;
-};
+import { fetchAllStorageCatalogs } from './api';
+import type { ActivityItem } from './types';
 
 /**
  * 영미 자료실 메인 애플리케이션 컴포넌트
@@ -35,31 +27,23 @@ function App() {
    * 페이지 로드시 전체 데이터를 조회합니다.
    */
   useEffect(() => {
-    const fetchAllEntries = async () => {
+    const loadAllEntries = async () => {
       setIsLoading(true);
       setError('');
 
       try {
-        const response = await fetch('https://oiqrfvgxrhjsy33aq65algtv5m0uwrog.lambda-url.ap-northeast-2.on.aws/');
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const parsedEntries: ActivityItem[] = Array.isArray(data?.items) ? data.items : [];
-
-        setAllEntries(parsedEntries);
+        const entries = await fetchAllStorageCatalogs();
+        setAllEntries(entries);
         setFilteredEntries([]);
       } catch (err) {
         setError('데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
-        console.error('Fetch error:', err);
+        console.error('Failed to load entries:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAllEntries();
+    loadAllEntries();
   }, []);
 
   /**
