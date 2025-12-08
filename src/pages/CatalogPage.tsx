@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchAllStorageCatalogs } from '../api';
 import type { ActivityItem } from '../types';
 import './CatalogPage.css';

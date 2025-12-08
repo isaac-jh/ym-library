@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { login } from '../api';
 import type { User } from '../types';
 import CatalogManagement from '../components/CatalogManagement';

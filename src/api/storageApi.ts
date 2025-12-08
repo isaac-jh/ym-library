@@ -96,11 +96,11 @@ export async function deleteStorageCatalog(id: number): Promise<void> {
 /**
  * 특정 검색어로 자료를 검색합니다.
  * TODO: 백엔드 API가 검색 기능을 제공하는 경우 구현
- * @param query - 검색어
+ * @param _query - 검색어 (현재 미사용)
  * @returns Promise<ActivityItem[]>
  */
 export async function searchStorageCatalogs(
-  query: string
+  _query: string
 ): Promise<ActivityItem[]> {
   // TODO: 백엔드에서 검색 API를 제공하면 구현
   // 현재는 클라이언트 사이드 필터링을 사용
