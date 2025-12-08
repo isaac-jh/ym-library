@@ -3,13 +3,18 @@
  */
 
 /**
+ * 카테고리 타입
+ */
+export type CategoryType = 'ACTIVITY' | 'MUSIC' | 'ETC';
+
+/**
  * 활동 아이템 타입
  * storage-catalogs API의 개별 아이템 구조
  */
 export type ActivityItem = {
   id: number;
   storage: string;
-  category: string;
+  category: CategoryType;
   year: number;
   month: number;
   activity_name: string;

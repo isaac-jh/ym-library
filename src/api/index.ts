@@ -4,7 +4,7 @@
  */
 
 // API 클라이언트 함수
-export { apiClient, get, post } from './client';
+export { apiClient, get, post, put, patch } from './client';
 
 // API 설정
 export { API_BASE_URL, API_ENDPOINTS, API_TIMEOUT } from './config';
@@ -13,22 +13,31 @@ export { API_BASE_URL, API_ENDPOINTS, API_TIMEOUT } from './config';
 export {
   fetchAllStorageCatalogs,
   searchStorageCatalogs,
+  createStorageCatalog,
+  updateStorageCatalog,
+  deleteStorageCatalog,
 } from './storageApi';
 
 // Backup API 함수
 export {
   fetchBackupStatus,
   filterBackupStatus,
+  createBackupStatus,
+  updateBackupStatus,
+  deleteBackupStatus,
+  markBackupComplete,
 } from './backupApi';
 
 // Auth API 함수
 export {
   login,
+  fetchUsers,
 } from './authApi';
 
 // 타입 re-export
 export type { 
-  ActivityItem, 
+  ActivityItem,
+  CategoryType,
   StorageCatalogsResponse, 
   BackupStatusItem,
   User,

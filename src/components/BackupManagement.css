@@ -1,0 +1,102 @@
+@import './CatalogManagement.css';
+
+/* 백업 관리 추가 스타일 */
+.backup-management {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.backup-table {
+  min-width: 1200px;
+}
+
+/* 체크박스 스타일 */
+.backup-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.backup-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #4ade80;
+}
+
+.backup-checkbox input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 생성 시 백업 진행 여부 체크박스 */
+.backup-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+}
+
+.backup-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4ade80;
+}
+
+.backup-checkbox-label span {
+  font-weight: 600;
+}
+
+/* N/A 표시 */
+.backup-na {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* 백업 상태 변경 버튼 */
+.btn-mark-complete {
+  padding: 10px 16px;
+  background: rgba(139, 92, 246, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.btn-mark-complete:hover {
+  background: rgba(139, 92, 246, 0.4);
+  border-color: rgba(139, 92, 246, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+/* 유저 선택 드롭다운 */
+.user-select {
+  min-height: 80px !important;
+  height: auto !important;
+}
+
+.user-select option {
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.user-select option:checked {
+  background: rgba(139, 92, 246, 0.5);
+  color: white;
+}
+

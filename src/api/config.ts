@@ -15,6 +15,7 @@ export const API_ENDPOINTS = {
   STORAGE_CATALOGS: '/storage-catalogs',
   BACKUP_STATUS: '/backup-status',
   AUTH_LOGIN: '/auth/login',
+  AUTH_USERS: '/auth/users',
   // TODO: 추가 엔드포인트 정의
 } as const;
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../api';
 import type { User } from '../types';
+import CatalogManagement from '../components/CatalogManagement';
+import BackupManagement from '../components/BackupManagement';
 import './ConsolePage.css';
 
 /**
@@ -268,17 +270,8 @@ function ConsolePage() {
 
         {/* 콘텐츠 영역 */}
         <div className="console-content">
-          {selectedMenu === 'catalog' && (
-            <div className="content-placeholder">
-              <p>카탈로그 관리 기능이 곧 추가됩니다.</p>
-            </div>
-          )}
-
-          {selectedMenu === 'backup' && (
-            <div className="content-placeholder">
-              <p>백업 현황 관리 기능이 곧 추가됩니다.</p>
-            </div>
-          )}
+          {selectedMenu === 'catalog' && <CatalogManagement />}
+          {selectedMenu === 'backup' && user && <BackupManagement currentUser={user} />}
         </div>
       </main>
     </div>

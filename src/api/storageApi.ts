@@ -3,7 +3,7 @@
  * 자료실 데이터를 조회하는 API 호출을 담당합니다.
  */
 
-import { get } from './client';
+import { get, post, put, apiClient } from './client';
 import { API_ENDPOINTS } from './config';
 import type { ActivityItem, StorageCatalogsResponse } from '../types';
 
@@ -31,6 +31,64 @@ export async function fetchAllStorageCatalogs(
     return [];
   } catch (error) {
     console.error('Failed to fetch storage catalogs:', error);
+    throw error;
+  }
+}
+
+/**
+ * 새로운 자료를 생성합니다.
+ * @param data - 생성할 자료 데이터
+ * @returns Promise<ActivityItem> - 생성된 자료
+ */
+export async function createStorageCatalog(
+  data: Omit<ActivityItem, 'id'>
+): Promise<ActivityItem> {
+  try {
+    const response = await post<ActivityItem>(
+      API_ENDPOINTS.STORAGE_CATALOGS,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error('Failed to create storage catalog:', error);
+    throw error;
+  }
+}
+
+/**
+ * 자료를 수정합니다.
+ * @param id - 자료 ID
+ * @param data - 수정할 데이터
+ * @returns Promise<ActivityItem> - 수정된 자료
+ */
+export async function updateStorageCatalog(
+  id: number,
+  data: Partial<ActivityItem>
+): Promise<ActivityItem> {
+  try {
+    const response = await put<ActivityItem>(
+      `${API_ENDPOINTS.STORAGE_CATALOGS}/${id}`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error('Failed to update storage catalog:', error);
+    throw error;
+  }
+}
+
+/**
+ * 자료를 삭제합니다.
+ * @param id - 자료 ID
+ * @returns Promise<void>
+ */
+export async function deleteStorageCatalog(id: number): Promise<void> {
+  try {
+    await apiClient(`${API_ENDPOINTS.STORAGE_CATALOGS}/${id}`, {
+      method: 'DELETE',
+    });
+  } catch (error) {
+    console.error('Failed to delete storage catalog:', error);
     throw error;
   }
 }

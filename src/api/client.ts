@@ -87,7 +87,6 @@ export async function get<T>(
 
 /**
  * POST 요청을 수행하는 헬퍼 함수
- * TODO: 필요시 구현
  * @param endpoint - API 엔드포인트
  * @param data - 요청 바디 데이터
  * @returns Promise<T>
@@ -95,6 +94,32 @@ export async function get<T>(
 export async function post<T>(endpoint: string, data: unknown): Promise<T> {
   return apiClient<T>(endpoint, {
     method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+/**
+ * PUT 요청을 수행하는 헬퍼 함수
+ * @param endpoint - API 엔드포인트
+ * @param data - 요청 바디 데이터
+ * @returns Promise<T>
+ */
+export async function put<T>(endpoint: string, data: unknown): Promise<T> {
+  return apiClient<T>(endpoint, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}
+
+/**
+ * PATCH 요청을 수행하는 헬퍼 함수
+ * @param endpoint - API 엔드포인트
+ * @param data - 요청 바디 데이터
+ * @returns Promise<T>
+ */
+export async function patch<T>(endpoint: string, data: unknown): Promise<T> {
+  return apiClient<T>(endpoint, {
+    method: 'PATCH',
     body: JSON.stringify(data),
   });
 }
