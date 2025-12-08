@@ -21,11 +21,19 @@ export {
   filterBackupStatus,
 } from './backupApi';
 
+// Auth API 함수
+export {
+  login,
+} from './authApi';
+
 // 타입 re-export
 export type { 
   ActivityItem, 
   StorageCatalogsResponse, 
   BackupStatusItem,
+  User,
+  LoginRequest,
+  LoginResponse,
   ApiError 
 } from '../types';
 

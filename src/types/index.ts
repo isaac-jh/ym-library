@@ -51,6 +51,39 @@ export type BackupStatusItem = {
 };
 
 /**
+ * 로그인 요청 타입
+ */
+export type LoginRequest = {
+  nickname: string;
+  password: string;
+};
+
+/**
+ * 유저 정보 타입
+ */
+export type User = {
+  id: number;
+  name: string;
+  nickname: string;
+  deleted: boolean;
+  created_at: string;
+};
+
+/**
+ * 로그인 응답 타입
+ */
+export type LoginResponse = {
+  token?: string;
+  user?: User;
+  id?: number;
+  name?: string;
+  nickname?: string;
+  deleted?: boolean;
+  created_at?: string;
+  message?: string;
+};
+
+/**
  * API 에러 응답 타입
  */
 export type ApiError = {
