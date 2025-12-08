@@ -188,23 +188,99 @@ function ConsolePage() {
     setPassword('');
   };
 
+  // 선택된 메뉴
+  const [selectedMenu, setSelectedMenu] = useState<'catalog' | 'backup'>('catalog');
+
+  /**
+   * 메뉴 제목 가져오기
+   */
+  const getMenuTitle = () => {
+    switch (selectedMenu) {
+      case 'catalog':
+        return '카탈로그 관리';
+      case 'backup':
+        return '백업 현황 관리';
+      default:
+        return '';
+    }
+  };
+
   // 로그인 후 화면
   return (
-    <div className="console-page">
-      <div className="container">
-        <div className="console-header">
-          <h1 className="title">관리 콘솔</h1>
-          {user && (
-            <div className="user-info">
-              <span className="user-name">{user.name} ({user.nickname})</span>
-              <button onClick={handleLogout} className="logout-button">
-                로그아웃
-              </button>
+    <div className="console-page console-layout">
+      {/* 사이드바 */}
+      <aside className="console-sidebar">
+        <div className="sidebar-header">
+          <h2 className="sidebar-title">영상미디어국 콘솔</h2>
+        </div>
+        
+        <nav className="sidebar-menu">
+          <button
+            className={`menu-item ${selectedMenu === 'catalog' ? 'active' : ''}`}
+            onClick={() => setSelectedMenu('catalog')}
+          >
+            <svg
+              className="menu-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span className="menu-text">카탈로그 관리</span>
+          </button>
+
+          <button
+            className={`menu-item ${selectedMenu === 'backup' ? 'active' : ''}`}
+            onClick={() => setSelectedMenu('backup')}
+          >
+            <svg
+              className="menu-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span className="menu-text">백업 현황 관리</span>
+          </button>
+        </nav>
+      </aside>
+
+      {/* 메인 콘텐츠 */}
+      <main className="console-main">
+        {/* 헤더 */}
+        <header className="console-header">
+          <h1 className="page-title">{getMenuTitle()}</h1>
+          
+          <div className="user-section">
+            <span className="user-name">{user?.name} ({user?.nickname})</span>
+            <button onClick={handleLogout} className="logout-button">
+              로그아웃
+            </button>
+          </div>
+        </header>
+
+        {/* 콘텐츠 영역 */}
+        <div className="console-content">
+          {selectedMenu === 'catalog' && (
+            <div className="content-placeholder">
+              <p>카탈로그 관리 기능이 곧 추가됩니다.</p>
+            </div>
+          )}
+
+          {selectedMenu === 'backup' && (
+            <div className="content-placeholder">
+              <p>백업 현황 관리 기능이 곧 추가됩니다.</p>
             </div>
           )}
         </div>
-        <p className="placeholder">관리 기능이 곧 추가됩니다.</p>
-      </div>
+      </main>
     </div>
   );
 }
