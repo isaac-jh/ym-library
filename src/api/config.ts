@@ -13,6 +13,7 @@ export const API_BASE_URL = 'http://15.164.45.130:8000/api/v1';
  */
 export const API_ENDPOINTS = {
   STORAGE_CATALOGS: '/storage-catalogs',
+  BACKUP_STATUS: '/backup-status',
   // TODO: 추가 엔드포인트 정의
 } as const;
 

@@ -25,6 +25,32 @@ export type StorageCatalogsResponse = {
 };
 
 /**
+ * 백업 상태 아이템 타입
+ * backup-status API의 개별 아이템 구조
+ */
+export type BackupStatusItem = {
+  id: number;
+  event_name: string | null;
+  displayed_date: string | null;
+  name: string;
+  description: string | null;
+  cam: boolean | null;
+  cam_checker: number | null;
+  cam_checker_name: string | null;
+  master: boolean | null;
+  master_checker: number | null;
+  master_checker_name: string | null;
+  clean: boolean;
+  clean_checker: number | null;
+  clean_checker_name: string | null;
+  final_product: boolean;
+  final_product_checker: number | null;
+  final_product_checker_name: string | null;
+  created_at: string;
+  producers: string[];
+};
+
+/**
  * API 에러 응답 타입
  */
 export type ApiError = {

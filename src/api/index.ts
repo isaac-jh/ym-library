@@ -15,6 +15,17 @@ export {
   searchStorageCatalogs,
 } from './storageApi';
 
+// Backup API 함수
+export {
+  fetchBackupStatus,
+  filterBackupStatus,
+} from './backupApi';
+
 // 타입 re-export
-export type { ActivityItem, StorageCatalogsResponse, ApiError } from '../types';
+export type { 
+  ActivityItem, 
+  StorageCatalogsResponse, 
+  BackupStatusItem,
+  ApiError 
+} from '../types';
 
