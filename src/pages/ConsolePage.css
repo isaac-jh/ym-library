@@ -4,27 +4,64 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 카메라 렌즈 배경 이미지 */
+.console-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* 배경 어둡게 오버레이 */
+.console-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 0;
 }
 
 .console-page .container {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 800px;
-  background: white;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-radius: 32px;
   padding: 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   text-align: center;
 }
 
 .console-page .title {
   font-size: 2.5rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 20px;
   font-weight: 700;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .console-page .placeholder {
   font-size: 1.2rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
