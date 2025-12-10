@@ -38,7 +38,6 @@ export {
 export type { 
   ActivityItem,
   CategoryType,
-  StorageCatalogsResponse, 
   BackupStatusItem,
   User,
   LoginRequest,
