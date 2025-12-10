@@ -22,14 +22,6 @@ export type ActivityItem = {
 };
 
 /**
- * Storage Catalogs API 응답 타입
- */
-export type StorageCatalogsResponse = {
-  items: ActivityItem[];
-  total?: number;
-};
-
-/**
  * 백업 상태 아이템 타입
  * backup-status API의 개별 아이템 구조
  */

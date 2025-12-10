@@ -5,7 +5,7 @@
 
 import { get, post, put, apiClient } from './client';
 import { API_ENDPOINTS } from './config';
-import type { ActivityItem, StorageCatalogsResponse } from '../types';
+import type { ActivityItem } from '../types';
 
 /**
  * 전체 자료 목록을 조회합니다.
@@ -16,14 +16,14 @@ export async function fetchAllStorageCatalogs(
   limit: number = 10000
 ): Promise<ActivityItem[]> {
   try {
-    const response = await get<StorageCatalogsResponse>(
+    const response = await get<ActivityItem[]>(
       API_ENDPOINTS.STORAGE_CATALOGS,
       { limit }
     );
 
     // 응답 데이터 검증 및 파싱
-    if (response && Array.isArray(response.items)) {
-      return response.items;
+    if (response) {
+      return response;
     }
 
     // items가 없거나 배열이 아닌 경우 빈 배열 반환

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, KeyboardEvent } from 'react';
 import { fetchAllStorageCatalogs } from '../api';
 import type { ActivityItem } from '../types';
 import './CatalogPage.css';
@@ -60,7 +60,7 @@ function CatalogPage() {
     const filtered = allEntries.filter((entry) =>
       entry.activity_name.toLowerCase().includes(trimmedQuery)
     );
-
+    
     setFilteredEntries(filtered);
   };
 
@@ -92,7 +92,7 @@ function CatalogPage() {
    * 검색 버튼 클릭 시 필터링을 수행합니다.
    * 검색어가 없으면 전체 데이터를 다시 표시합니다.
    */
-  const handleSearch = async () => {
+  const handleSearch = () => {
     setError('');
     setSuggestions([]);
     setHasSearched(true);
@@ -102,7 +102,7 @@ function CatalogPage() {
   /**
    * 엔터키 입력 시 검색을 수행합니다.
    */
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
@@ -161,6 +161,9 @@ function CatalogPage() {
                     e.preventDefault();
                     setSearchQuery(item.activity_name);
                     setSuggestions([]);
+                    // 자동완성 선택 시 바로 검색 실행
+                    setHasSearched(true);
+                    filterEntries(item.activity_name);
                   }}
                 >
                   {item.activity_name}

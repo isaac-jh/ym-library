@@ -1,11 +1,10 @@
 .console-page {
   position: relative;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 /* 로그인 화면용 스타일 */
 .console-page:not(.console-layout) {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +13,6 @@
 
 /* 콘솔 레이아웃 */
 .console-layout {
-  min-height: 100vh;
   height: 100vh;
   display: flex;
   overflow: hidden;
@@ -23,11 +21,11 @@
 /* 카메라 렌즈 배경 이미지 */
 .console-page::before {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-image: url('/assets/bg.png');
   background-size: cover;
   background-position: center;
@@ -38,11 +36,11 @@
 /* 배경 어둡게 오버레이 */
 .console-page::after {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.2);
   z-index: 0;
 }
@@ -91,7 +89,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 10;
+  z-index: 100;
 }
 
 .sidebar-header {
@@ -165,6 +163,8 @@
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 /* 콘솔 헤더 */

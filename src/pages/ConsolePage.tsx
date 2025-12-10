@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, KeyboardEvent, FormEvent } from 'react';
 import { login } from '../api';
 import type { User } from '../types';
 import CatalogManagement from '../components/CatalogManagement';
@@ -27,6 +27,8 @@ function ConsolePage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // 에러 메시지
   const [errorMessage, setErrorMessage] = useState<string>('');
+  // 선택된 메뉴
+  const [selectedMenu, setSelectedMenu] = useState<'catalog' | 'backup'>('catalog');
 
   /**
    * 페이지 로드 시 세션스토리지에서 유저 정보 복원
@@ -55,7 +57,7 @@ function ConsolePage() {
   /**
    * 로그인 처리 함수
    */
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     
     // 입력값 검증
@@ -113,9 +115,34 @@ function ConsolePage() {
   /**
    * 엔터키로 로그인
    */
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isLoading) {
-      handleLogin(e as any);
+      handleLogin(e as unknown as FormEvent);
+    }
+  };
+
+  /**
+   * 로그아웃 처리
+   */
+  const handleLogout = () => {
+    sessionStorage.removeItem(SESSION_USER_KEY);
+    setUser(null);
+    setIsLoggedIn(false);
+    setNickname('');
+    setPassword('');
+  };
+
+  /**
+   * 메뉴 제목 가져오기
+   */
+  const getMenuTitle = () => {
+    switch (selectedMenu) {
+      case 'catalog':
+        return '카탈로그 관리';
+      case 'backup':
+        return '백업 현황 관리';
+      default:
+        return '';
     }
   };
 
@@ -178,34 +205,6 @@ function ConsolePage() {
       </div>
     );
   }
-
-  /**
-   * 로그아웃 처리
-   */
-  const handleLogout = () => {
-    sessionStorage.removeItem(SESSION_USER_KEY);
-    setUser(null);
-    setIsLoggedIn(false);
-    setNickname('');
-    setPassword('');
-  };
-
-  // 선택된 메뉴
-  const [selectedMenu, setSelectedMenu] = useState<'catalog' | 'backup'>('catalog');
-
-  /**
-   * 메뉴 제목 가져오기
-   */
-  const getMenuTitle = () => {
-    switch (selectedMenu) {
-      case 'catalog':
-        return '카탈로그 관리';
-      case 'backup':
-        return '백업 현황 관리';
-      default:
-        return '';
-    }
-  };
 
   // 로그인 후 화면
   return (
