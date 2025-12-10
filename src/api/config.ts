@@ -6,7 +6,7 @@
  * API 기본 URL
  * TODO: 환경 변수로 분리 고려 (개발/프로덕션 환경 분리)
  */
-export const API_BASE_URL = 'http://15.164.45.130:8000/api/v1';
+export const API_BASE_URL = 'https://ym-back.icoramdeo.com/api/v1';
 
 /**
  * API 엔드포인트
