@@ -165,78 +165,6 @@ function CatalogManagement() {
             </tr>
           </thead>
           <tbody>
-            {/* 새 항목 생성 행 */}
-            {isCreating && (
-              <tr className="edit-row">
-                <td>NEW</td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.storage}
-                    onChange={(e) => setNewData({ ...newData, storage: e.target.value })}
-                    className="input-field"
-                  />
-                </td>
-                <td>
-                  <select
-                    value={newData.category}
-                    onChange={(e) => setNewData({ ...newData, category: e.target.value as CategoryType })}
-                    className="input-field"
-                  >
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={newData.year}
-                    onChange={(e) => setNewData({ ...newData, year: parseInt(e.target.value) })}
-                    className="input-field"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={newData.month}
-                    onChange={(e) => setNewData({ ...newData, month: parseInt(e.target.value) })}
-                    className="input-field"
-                    min="1"
-                    max="12"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.activity_name}
-                    onChange={(e) => setNewData({ ...newData, activity_name: e.target.value })}
-                    className="input-field"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.description || ''}
-                    onChange={(e) => setNewData({ ...newData, description: e.target.value })}
-                    className="input-field"
-                  />
-                </td>
-                <td>
-                  <div className="btn-group">
-                    <button className="btn-complete" onClick={completeCreate}>
-                      완료
-                    </button>
-                    <button className="btn-cancel" onClick={cancelCreate}>
-                      취소
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            )}
-
             {/* 데이터 행 */}
             {items.map((item) => (
               <tr key={item.id} className={editingId === item.id ? 'edit-row' : ''}>
@@ -276,7 +204,7 @@ function CatalogManagement() {
                       type="number"
                       value={editData.year || ''}
                       onChange={(e) => setEditData({ ...editData, year: parseInt(e.target.value) })}
-                      className="input-field"
+                      className="input-field number-input"
                     />
                   ) : (
                     item.year
@@ -288,7 +216,7 @@ function CatalogManagement() {
                       type="number"
                       value={editData.month || ''}
                       onChange={(e) => setEditData({ ...editData, month: parseInt(e.target.value) })}
-                      className="input-field"
+                      className="input-field number-input"
                       min="1"
                       max="12"
                     />
@@ -376,6 +304,103 @@ function CatalogManagement() {
               </button>
               <button className="btn-cancel" onClick={() => setDeleteConfirmId(null)}>
                 취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 새 항목 생성 바텀시트 */}
+      {isCreating && (
+        <div className="bottom-sheet-overlay" onClick={cancelCreate}>
+          <div className="bottom-sheet-content" onClick={(e) => e.stopPropagation()}>
+            <div className="bottom-sheet-header">
+              <h3>새 항목 추가</h3>
+              <button className="btn-close" onClick={cancelCreate}>
+                ✕
+              </button>
+            </div>
+            
+            <div className="bottom-sheet-body">
+              <div className="form-group">
+                <label>보관소</label>
+                <input
+                  type="text"
+                  value={newData.storage}
+                  onChange={(e) => setNewData({ ...newData, storage: e.target.value })}
+                  className="input-field"
+                  placeholder="보관소명을 입력하세요"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>카테고리</label>
+                <select
+                  value={newData.category}
+                  onChange={(e) => setNewData({ ...newData, category: e.target.value as CategoryType })}
+                  className="input-field"
+                >
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>연도</label>
+                  <input
+                    type="number"
+                    value={newData.year}
+                    onChange={(e) => setNewData({ ...newData, year: parseInt(e.target.value) })}
+                    className="input-field number-input"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>월</label>
+                  <input
+                    type="number"
+                    value={newData.month}
+                    onChange={(e) => setNewData({ ...newData, month: parseInt(e.target.value) })}
+                    className="input-field number-input"
+                    min="1"
+                    max="12"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>활동명</label>
+                <input
+                  type="text"
+                  value={newData.activity_name}
+                  onChange={(e) => setNewData({ ...newData, activity_name: e.target.value })}
+                  className="input-field"
+                  placeholder="활동명을 입력하세요"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>설명</label>
+                <input
+                  type="text"
+                  value={newData.description || ''}
+                  onChange={(e) => setNewData({ ...newData, description: e.target.value })}
+                  className="input-field"
+                  placeholder="설명을 입력하세요 (선택사항)"
+                />
+              </div>
+            </div>
+
+            <div className="bottom-sheet-footer">
+              <button className="btn-cancel" onClick={cancelCreate}>
+                취소
+              </button>
+              <button className="btn-complete" onClick={completeCreate}>
+                완료
               </button>
             </div>
           </div>

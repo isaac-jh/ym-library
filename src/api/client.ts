@@ -40,6 +40,11 @@ export async function apiClient<T>(
       throw error;
     }
 
+    // 204 No Content 응답은 body가 없으므로 null 반환
+    if (response.status === 204) {
+      return null as T;
+    }
+
     const data = await response.json();
     return data as T;
   } catch (err) {
