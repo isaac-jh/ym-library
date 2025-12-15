@@ -84,19 +84,143 @@
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
-/* 유저 선택 드롭다운 */
-.user-select {
-  min-height: 80px !important;
-  height: auto !important;
+/* 유저 관리 */
+.user-management {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.user-select option {
-  padding: 6px 8px;
-  cursor: pointer;
+.selected-users {
+  flex: 1;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 0.9rem;
 }
 
-.user-select option:checked {
-  background: rgba(139, 92, 246, 0.5);
+.no-users {
+  color: rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+.btn-add-user {
+  padding: 8px 16px;
+  background: rgba(59, 130, 246, 0.9);
+  border: none;
+  border-radius: 8px;
   color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-add-user:hover {
+  background: rgba(59, 130, 246, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* 백업 옵션 체크박스 그리드 */
+.backup-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.backup-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backup-option:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.backup-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #4ade80;
+}
+
+.backup-option span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* 유저 선택 모달 */
+.user-modal {
+  max-width: 500px;
+}
+
+.user-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-item:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.user-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #8b5cf6;
+}
+
+.user-item span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+/* 바텀시트 내부 유저 관리 */
+.bottom-sheet-body .user-management {
+  width: 100%;
+}
+
+.bottom-sheet-body .selected-users {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.bottom-sheet-body .no-users {
+  color: rgba(0, 0, 0, 0.4);
 }
 

@@ -52,6 +52,8 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
     shouldBackupFinalProduct: true,
   });
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
+  // 유저 선택 모달
+  const [showUserModal, setShowUserModal] = useState(false);
 
   /**
    * 데이터 로드
@@ -296,116 +298,6 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
             </tr>
           </thead>
           <tbody>
-            {/* 새 항목 생성 행 */}
-            {isCreating && (
-              <tr className="edit-row">
-                <td>NEW</td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.event_name}
-                    onChange={(e) => setNewData({ ...newData, event_name: e.target.value })}
-                    className="input-field"
-                    placeholder="선택사항"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="date"
-                    value={newData.displayed_date}
-                    onChange={(e) => setNewData({ ...newData, displayed_date: e.target.value })}
-                    className="input-field"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.name}
-                    onChange={(e) => setNewData({ ...newData, name: e.target.value })}
-                    className="input-field"
-                    placeholder="필수"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={newData.description}
-                    onChange={(e) => setNewData({ ...newData, description: e.target.value })}
-                    className="input-field"
-                    placeholder="선택사항"
-                  />
-                </td>
-                <td>
-                  <label className="backup-checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={newData.shouldBackupCam}
-                      onChange={(e) => setNewData({ ...newData, shouldBackupCam: e.target.checked })}
-                    />
-                    <span>{newData.shouldBackupCam ? '진행' : '안함'}</span>
-                  </label>
-                </td>
-                <td>
-                  <label className="backup-checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={newData.shouldBackupMaster}
-                      onChange={(e) => setNewData({ ...newData, shouldBackupMaster: e.target.checked })}
-                    />
-                    <span>{newData.shouldBackupMaster ? '진행' : '안함'}</span>
-                  </label>
-                </td>
-                <td>
-                  <label className="backup-checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={newData.shouldBackupClean}
-                      onChange={(e) => setNewData({ ...newData, shouldBackupClean: e.target.checked })}
-                    />
-                    <span>{newData.shouldBackupClean ? '진행' : '안함'}</span>
-                  </label>
-                </td>
-                <td>
-                  <label className="backup-checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={newData.shouldBackupFinalProduct}
-                      onChange={(e) => setNewData({ ...newData, shouldBackupFinalProduct: e.target.checked })}
-                    />
-                    <span>{newData.shouldBackupFinalProduct ? '진행' : '안함'}</span>
-                  </label>
-                </td>
-                <td>
-                  <select
-                    multiple
-                    value={selectedUserIds.map(String)}
-                    onChange={(e) => {
-                      const selected = Array.from(e.target.selectedOptions).map((opt) => parseInt(opt.value));
-                      setSelectedUserIds(selected);
-                    }}
-                    className="input-field user-select"
-                    size={3}
-                  >
-                    {users.map((user) => (
-                      <option key={user.id} value={user.id}>
-                        {user.name} ({user.nickname})
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <div className="btn-group">
-                    <button className="btn-complete" onClick={completeCreate}>
-                      완료
-                    </button>
-                    <button className="btn-cancel" onClick={cancelCreate}>
-                      취소
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            )}
-
             {/* 데이터 행 */}
             {items.map((item) => {
               const hasChanges = changedStates.has(item.id);
@@ -464,7 +356,7 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                   </td>
                   <td>
                     {item.cam === null ? (
-                      <span className="backup-na">N/A</span>
+                      ''
                     ) : (
                       <label className="backup-checkbox">
                         <input
@@ -478,7 +370,7 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                   </td>
                   <td>
                     {item.master === null ? (
-                      <span className="backup-na">N/A</span>
+                      ''
                     ) : (
                       <label className="backup-checkbox">
                         <input
@@ -492,7 +384,7 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                   </td>
                   <td>
                     {item.clean === null ? (
-                      <span className="backup-na">N/A</span>
+                      ''
                     ) : (
                       <label className="backup-checkbox">
                         <input
@@ -506,7 +398,7 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                   </td>
                   <td>
                     {item.final_product === null ? (
-                      <span className="backup-na">N/A</span>
+                      ''
                     ) : (
                       <label className="backup-checkbox">
                         <input
@@ -520,22 +412,24 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                   </td>
                   <td>
                     {isEditing ? (
-                      <select
-                        multiple
-                        value={selectedUserIds.map(String)}
-                        onChange={(e) => {
-                          const selected = Array.from(e.target.selectedOptions).map((opt) => parseInt(opt.value));
-                          setSelectedUserIds(selected);
-                        }}
-                        className="input-field user-select"
-                        size={3}
-                      >
-                        {users.map((user) => (
-                          <option key={user.id} value={user.id}>
-                            {user.name} ({user.nickname})
-                          </option>
-                        ))}
-                      </select>
+                      <div className="user-management">
+                        <div className="selected-users">
+                          {selectedUserIds.length > 0 ? (
+                            users
+                              .filter((u) => selectedUserIds.includes(u.id))
+                              .map((u) => u.name)
+                              .join(', ')
+                          ) : (
+                            <span className="no-users">작업자 없음</span>
+                          )}
+                        </div>
+                        <button
+                          className="btn-add-user"
+                          onClick={() => setShowUserModal(true)}
+                        >
+                          추가
+                        </button>
+                      </div>
                     ) : (
                       item.producers.length > 0 ? item.producers.join(', ') : '-'
                     )}
@@ -604,6 +498,166 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
               </button>
               <button className="btn-cancel" onClick={() => setDeleteConfirmId(null)}>
                 취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 새 항목 생성 바텀시트 */}
+      {isCreating && (
+        <div className="bottom-sheet-overlay" onClick={cancelCreate}>
+          <div className="bottom-sheet-content" onClick={(e) => e.stopPropagation()}>
+            <div className="bottom-sheet-header">
+              <h3>새 항목 추가</h3>
+              <button className="btn-close" onClick={cancelCreate}>
+                ✕
+              </button>
+            </div>
+            
+            <div className="bottom-sheet-body">
+              <div className="form-group">
+                <label>이벤트명 (선택사항)</label>
+                <input
+                  type="text"
+                  value={newData.event_name}
+                  onChange={(e) => setNewData({ ...newData, event_name: e.target.value })}
+                  className="input-field"
+                  placeholder="이벤트명을 입력하세요"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>표시 날짜 (선택사항)</label>
+                <input
+                  type="date"
+                  value={newData.displayed_date}
+                  onChange={(e) => setNewData({ ...newData, displayed_date: e.target.value })}
+                  className="input-field"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>이름 (필수)</label>
+                <input
+                  type="text"
+                  value={newData.name}
+                  onChange={(e) => setNewData({ ...newData, name: e.target.value })}
+                  className="input-field"
+                  placeholder="이름을 입력하세요"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>설명 (선택사항)</label>
+                <input
+                  type="text"
+                  value={newData.description}
+                  onChange={(e) => setNewData({ ...newData, description: e.target.value })}
+                  className="input-field"
+                  placeholder="설명을 입력하세요"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>백업 진행 항목</label>
+                <div className="backup-options">
+                  <label className="backup-option">
+                    <input
+                      type="checkbox"
+                      checked={newData.shouldBackupCam}
+                      onChange={(e) => setNewData({ ...newData, shouldBackupCam: e.target.checked })}
+                    />
+                    <span>CAM</span>
+                  </label>
+                  <label className="backup-option">
+                    <input
+                      type="checkbox"
+                      checked={newData.shouldBackupMaster}
+                      onChange={(e) => setNewData({ ...newData, shouldBackupMaster: e.target.checked })}
+                    />
+                    <span>Master</span>
+                  </label>
+                  <label className="backup-option">
+                    <input
+                      type="checkbox"
+                      checked={newData.shouldBackupClean}
+                      onChange={(e) => setNewData({ ...newData, shouldBackupClean: e.target.checked })}
+                    />
+                    <span>Clean</span>
+                  </label>
+                  <label className="backup-option">
+                    <input
+                      type="checkbox"
+                      checked={newData.shouldBackupFinalProduct}
+                      onChange={(e) => setNewData({ ...newData, shouldBackupFinalProduct: e.target.checked })}
+                    />
+                    <span>Final Product</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>작업자</label>
+                <div className="user-management">
+                  <div className="selected-users">
+                    {selectedUserIds.length > 0 ? (
+                      users
+                        .filter((u) => selectedUserIds.includes(u.id))
+                        .map((u) => u.name)
+                        .join(', ')
+                    ) : (
+                      <span className="no-users">작업자 없음</span>
+                    )}
+                  </div>
+                  <button
+                    className="btn-add-user"
+                    onClick={() => setShowUserModal(true)}
+                  >
+                    추가
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="bottom-sheet-footer">
+              <button className="btn-cancel" onClick={cancelCreate}>
+                취소
+              </button>
+              <button className="btn-complete" onClick={completeCreate}>
+                완료
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 유저 선택 모달 */}
+      {showUserModal && (
+        <div className="modal-overlay" onClick={() => setShowUserModal(false)}>
+          <div className="modal-content user-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>작업자 선택</h3>
+            <div className="user-list">
+              {users.map((user) => (
+                <label key={user.id} className="user-item">
+                  <input
+                    type="checkbox"
+                    checked={selectedUserIds.includes(user.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedUserIds([...selectedUserIds, user.id]);
+                      } else {
+                        setSelectedUserIds(selectedUserIds.filter((id) => id !== user.id));
+                      }
+                    }}
+                  />
+                  <span>{user.name}</span>
+                </label>
+              ))}
+            </div>
+            <div className="modal-buttons">
+              <button className="btn-confirm" onClick={() => setShowUserModal(false)}>
+                확인
               </button>
             </div>
           </div>
