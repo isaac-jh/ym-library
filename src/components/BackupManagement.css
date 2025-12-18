@@ -12,6 +12,10 @@
   min-width: 1200px;
 }
 
+.backup-table th {
+  text-align: center !important;
+}
+
 /* 체크박스 스타일 */
 .backup-checkbox {
   display: flex;

@@ -1,4 +1,5 @@
 import { useState, useEffect, KeyboardEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../api';
 import type { User } from '../types';
 import CatalogManagement from '../components/CatalogManagement';
@@ -15,6 +16,8 @@ const SESSION_USER_KEY = 'ym_library_user';
  * 로그인 후 관리 기능을 제공합니다.
  */
 function ConsolePage() {
+  const navigate = useNavigate();
+  
   // 로그인 상태
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   // 유저 정보
@@ -150,6 +153,11 @@ function ConsolePage() {
   if (!isLoggedIn) {
     return (
       <div className="console-page">
+        <button className="back-button" onClick={() => navigate('/')} aria-label="뒤로가기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
         <div className="login-container">
           <h1 className="login-title">관리 콘솔</h1>
           

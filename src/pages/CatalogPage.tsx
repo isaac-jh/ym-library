@@ -1,4 +1,5 @@
 import { useEffect, useState, KeyboardEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchAllStorageCatalogs } from '../api';
 import type { ActivityItem } from '../types';
 import './CatalogPage.css';
@@ -8,6 +9,7 @@ import './CatalogPage.css';
  * 검색어를 입력받아 API를 호출하고 결과를 표시합니다.
  */
 function CatalogPage() {
+  const navigate = useNavigate();
   // 검색어 상태 관리
   const [searchQuery, setSearchQuery] = useState<string>('');
   // 전체 데이터 목록
@@ -110,6 +112,11 @@ function CatalogPage() {
 
   return (
     <div className="catalog-page">
+      <button className="back-button" onClick={() => navigate('/')} aria-label="뒤로가기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
       <div className="container">
         <h1 className="title">영미 자료실</h1>
         

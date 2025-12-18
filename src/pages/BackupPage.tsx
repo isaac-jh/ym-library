@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchBackupStatus } from '../api';
 import type { BackupStatusItem } from '../types';
 import './BackupPage.css';
@@ -8,6 +9,7 @@ import './BackupPage.css';
  * 백업 상태 현황을 조회하고 표시합니다.
  */
 function BackupPage() {
+  const navigate = useNavigate();
   // 전체 백업 상태 목록
   const [allBackupItems, setAllBackupItems] = useState<BackupStatusItem[]>([]);
   // 검색어
@@ -162,6 +164,11 @@ function BackupPage() {
 
   return (
     <div className="backup-page">
+      <button className="back-button" onClick={() => navigate('/')} aria-label="뒤로가기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
       <div className="container">
         <h1 className="title">백업 현황</h1>
 

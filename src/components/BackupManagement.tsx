@@ -303,6 +303,12 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
               const hasChanges = changedStates.has(item.id);
               const isEditing = editingId === item.id;
               
+              // 현재 표시된 값 (changedStates 반영)
+              const currentCamValue = changedStates.get(item.id)?.cam ?? item.cam;
+              const currentMasterValue = changedStates.get(item.id)?.master ?? item.master;
+              const currentCleanValue = changedStates.get(item.id)?.clean ?? item.clean;
+              const currentFinalProductValue = changedStates.get(item.id)?.final_product ?? item.final_product;
+              
               return (
                 <tr key={item.id} className={isEditing ? 'edit-row' : ''}>
                   <td>{item.id}</td>
@@ -361,8 +367,8 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                       <label className="backup-checkbox">
                         <input
                           type="checkbox"
-                          checked={changedStates.get(item.id)?.cam ?? item.cam}
-                          onChange={() => handleCheckboxChange(item.id, 'cam', item.cam)}
+                          checked={currentCamValue as boolean}
+                          onChange={() => handleCheckboxChange(item.id, 'cam', currentCamValue)}
                           disabled={isEditing}
                         />
                       </label>
@@ -375,8 +381,8 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                       <label className="backup-checkbox">
                         <input
                           type="checkbox"
-                          checked={changedStates.get(item.id)?.master ?? item.master}
-                          onChange={() => handleCheckboxChange(item.id, 'master', item.master)}
+                          checked={currentMasterValue as boolean}
+                          onChange={() => handleCheckboxChange(item.id, 'master', currentMasterValue)}
                           disabled={isEditing}
                         />
                       </label>
@@ -389,8 +395,8 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                       <label className="backup-checkbox">
                         <input
                           type="checkbox"
-                          checked={changedStates.get(item.id)?.clean ?? item.clean}
-                          onChange={() => handleCheckboxChange(item.id, 'clean', item.clean)}
+                          checked={currentCleanValue as boolean}
+                          onChange={() => handleCheckboxChange(item.id, 'clean', currentCleanValue)}
                           disabled={isEditing}
                         />
                       </label>
@@ -403,8 +409,8 @@ function BackupManagement({ currentUser }: BackupManagementProps) {
                       <label className="backup-checkbox">
                         <input
                           type="checkbox"
-                          checked={changedStates.get(item.id)?.final_product ?? item.final_product}
-                          onChange={() => handleCheckboxChange(item.id, 'final_product', item.final_product)}
+                          checked={currentFinalProductValue as boolean}
+                          onChange={() => handleCheckboxChange(item.id, 'final_product', currentFinalProductValue)}
                           disabled={isEditing}
                         />
                       </label>
