@@ -35,7 +35,7 @@ const CHAT_ANIMATION_DURATION_MS = 320;
 const TOOLTIP_APPEAR_DELAY_MS = 500;
 
 /** 응답 텍스트를 한 글자씩 출력할 때 사용할 간격 (ms). */
-const TYPING_INTERVAL_MS = 50;
+const TYPING_INTERVAL_MS = 10;
 
 /**
  * 채팅 메시지 (UI 표현용).
@@ -343,7 +343,7 @@ function ChatBot() {
             />
             <div className="chatbot-window__title">
               <strong>자료실 챗봇</strong>
-              <span>활동/장면을 자연어로 질문해 보세요</span>
+              <span>활동/장면을 질문해 보세요</span>
             </div>
             <button
               type="button"
@@ -367,7 +367,7 @@ function ChatBot() {
               <div className="chatbot-window__empty">
                 무엇을 찾고 계신가요?
                 <br />
-                예) "가족초청예배 영상 어디에 백업되어 있어?"
+                예) "햄찌런 영상이 어디에 저장되어 있어?"
               </div>
             )}
 
@@ -410,7 +410,7 @@ function ChatBot() {
               ref={inputRef}
               type="text"
               className="chatbot-window__input"
-              placeholder="가초예 영상 위치 찾아줘"
+              placeholder="햄찌런 영상이 어디에 저장되어 있어?"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleInputKeyDown}
