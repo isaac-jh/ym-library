@@ -2,6 +2,7 @@ import { useEffect, useState, KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchAllStorageCatalogs } from '../api';
 import type { ActivityItem } from '../types';
+import ChatBot from '../components/ChatBot';
 import './CatalogPage.css';
 
 /**
@@ -214,6 +215,9 @@ function CatalogPage() {
           <div className="result empty">일치하는 자료가 없습니다.</div>
         )}
       </div>
+
+      {/* 우측 하단 고정 챗봇 위젯 */}
+      <ChatBot />
     </div>
   );
 }

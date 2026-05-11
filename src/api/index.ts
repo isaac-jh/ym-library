@@ -34,6 +34,10 @@ export {
   fetchUsers,
 } from './authApi';
 
+// Chat API 함수
+export { sendChat, ChatApiError } from './chatApi';
+export type { ChatRole, ChatTurn, ChatResponse, ToolCallRecord } from './chatApi';
+
 // 타입 re-export
 export type { 
   ActivityItem,
