@@ -82,6 +82,10 @@
   position: absolute;
   right: 88px; /* 런처 width(72) + gap(16) */
   bottom: 8px;
+  /* width: max-content 로 컨텐츠 기준 폭을 확보해야 함.
+     (containing block 인 .chatbot-root 가 런처 너비(72px)로 줄어들기 때문에
+     auto 폭이면 가용 폭이 음수가 되어 글자마다 줄바꿈됨) */
+  width: max-content;
   max-width: 260px;
   padding: 14px 16px;
   border: none;
@@ -97,6 +101,7 @@
   transform-origin: bottom right;
   animation: chatbot-tooltip-in 380ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   white-space: normal;
+  word-break: keep-all;
 }
 
 .chatbot-tooltip:hover {
@@ -503,6 +508,7 @@
 
   .chatbot-tooltip {
     right: 76px;
+    width: max-content;
     max-width: 220px;
     padding: 12px 14px;
     font-size: 0.86rem;
